@@ -1,0 +1,115 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id    String     @id @default(cuid())
+  name String 
+  email String  @unique
+  passwordHash String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  boards Board[] @relation("BoardsOwned")
+  memberships BoardMember[] @relation("IsBoardMember")
+  cardsCreatedIds Card[] @relation("CreatedByUserId")
+  activity ActivityLog[] @relation("ActivityByUser")
+}
+
+model Board {
+  id String @id @default(cuid())
+  name String 
+  description String?
+  owner User @relation("BoardsOwned", fields: [ownerId], references: [id])
+  ownerId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  members BoardMember[] @relation("BoardMembers")
+  columns Column[] @relation("BelongBoard")
+  labels Label[] @relation("AssociatedBoard")
+  activity ActivityLog[] @relation("ActivityOnBoard")
+}
+
+model BoardMember {
+  id String @id @default(cuid())
+  board Board @relation("BoardMembers", fields: [boardId], references: [id])
+  boardId String
+  user User @relation("IsBoardMember", fields: [userId], references: [id])
+  userId String
+  role Role @default(MEMBER)
+}
+
+enum Role {
+  OWNER
+  MEMBER
+}
+
+model Column {
+  id String @id @default(cuid())
+  board Board @relation("BelongBoard", fields: [boardId], references: [id])
+  boardId String
+  name String
+  position Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cards Card[] @relation("BelongColumn")
+
+  @@unique([boardId, name])
+}
+
+model Card {
+  id String @id @default(cuid())
+  column Column @relation("BelongColumn", fields: [columnId], references: [id])
+  columnId String
+  title String
+  description String
+  position Int
+  createdBy User @relation("CreatedByUserId", fields: [createdById], references: [id])
+  createdById String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cardLabels CardLabel[] @relation("CardsToLabel")
+  activity ActivityLog[] @relation("ActivityOnCard")
+}
+
+model Label {
+  id String @id @default(cuid())
+  board Board @relation("AssociatedBoard", fields: [boardId], references: [id])
+  boardId String
+  name String
+  color String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cardLabels CardLabel[] @relation("LabelToCards")
+
+  @@unique([boardId, name])
+}
+
+model CardLabel {
+  card Card @relation("CardsToLabel", fields: [cardId], references: [id])
+  cardId String
+  label Label @relation("LabelToCards", fields: [labelId], references: [id])
+  labelId String
+
+  @@id([cardId, labelId])
+}
+
+model ActivityLog {
+    id String @id @default(cuid())
+    board Board @relation("ActivityOnBoard", fields: [boardId], references: [id])
+    boardId String
+    card Card? @relation("ActivityOnCard", fields: [cardId], references: [id])
+    cardId String?
+    actor User @relation("ActivityByUser", fields: [actorId], references: [id])
+    actorId String
+    action String
+    payload String?
+    createdAt DateTime @default(now())
+}

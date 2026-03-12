@@ -1,0 +1,26 @@
+{
+  "name": "kanban-manager-api",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/bcrypt": "^6.0.0",
+    "@types/bun": "latest",
+    "@types/express": "^5.0.6",
+    "eslint": "^10.0.3",
+    "globals": "^17.4.0",
+    "prettier": "3.8.1",
+    "prisma": "^7.4.2",
+    "typescript-eslint": "^8.57.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@prisma/adapter-libsql": "^7.4.2",
+    "@prisma/client": "^7.4.2",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1"
+  }
+}

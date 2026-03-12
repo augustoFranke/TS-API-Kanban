@@ -1,0 +1,68 @@
+# dependencies (bun install)
+node_modules
+
+# output
+out
+dist
+*.tgz
+
+# code coverage
+coverage
+*.lcov
+
+# logs
+logs
+*.log
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# dotenv environment variable files
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# caches
+.eslintcache
+.cache
+*.tsbuildinfo
+
+# IntelliJ based IDEs
+.idea
+
+# Finder (MacOS) folder config
+.DS_Store
+
+# Personal planning files
+TO-DO.md
+PRD.md
+
+# Cursor config and rules
+.cursor
+
+# SQLite database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Prisma
+/generated/prisma
+prisma/migrations/**/migration_lock.toml
+
+# OS generated files
+Thumbs.db
+
+# Editor directories and files
+.vscode
+*.swp
+*.swo
+
+# Build files
+build
+
+# Test files
+*.test.js
+*.spec.js
+
+# Pseudocode files
+*.pseudocode
