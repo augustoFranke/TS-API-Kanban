@@ -2,6 +2,7 @@ import express from "express";
 import { PrismaClient } from "./generated/prisma/client";
 import { PrismaLibSql } from "@prisma/adapter-libsql";
 import "dotenv/config";
+import router from "./src/routes/auth";
 
 const adapter = new PrismaLibSql({
   url: process.env.DATABASE_URL!,
@@ -20,6 +21,10 @@ async function start() {
         console.error(error);
         process.exit(1);
     }
+
+    app.use(express.json());
+
+    app.use("/auth", router);
 
     app.listen(port, () => {
         console.log(`Successfully started express. Listening at port:${port}`);

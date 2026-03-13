@@ -10,5 +10,5 @@ export async function createUser(data: CreateUserInput) {
         name: data.name,
         email: data.email,
         passwordHash: data.hashedPassword
-     }, select: {id: true, name: true, email: true, createdAt: true, updatedAt: true}})
+     }, select: {id: true, name: true, email: true, createdAt: true, updatedAt: true}});
 }
