@@ -1,6 +1,7 @@
 import type { RegisterUserInput, LoginUserInput } from "../../types";
 import { createUser, findUserByEmail } from "../repository/userRepository";
 import bcrypt from "bcrypt";
+import { signJwtToken } from "../utility/jwt";
 
 export async function registerUser(data: RegisterUserInput) {
     const existingEmail = await findUserByEmail(data.email);
@@ -27,4 +28,6 @@ export async function loginUser(data: LoginUserInput) {
     if (!isMatch) {
         throw new Error("Wrong password")
     }
+
+    return await signJwtToken(existingEmail.id);
 }

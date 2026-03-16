@@ -20,7 +20,7 @@ export async function login(req: Request, res: Response) {
     try {
         const { email, password } = req.body;
 
-        const token = await loginUser({email, password});
+        const token = await loginUser({ email, password });
         console.log(token);
         return res.status(200).json({ token: token });
     } catch (error) {
