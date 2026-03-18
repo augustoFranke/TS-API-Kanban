@@ -1,32 +1,40 @@
 import type { Request, Response } from "express";
-import { loginUser, registerUser } from "../services/authService";
+import { getMe, loginUser, registerUser } from "../services/authService";
+import { registerSchema, loginSchema } from "../validators/authSchemas";
+import { handleError } from "../errors/handleError";
 
 export async function register(req: Request, res: Response) {
     try {
-        const { name, email, password } = req.body;
+        const data = registerSchema.parse(req.body)
 
-        const user = await registerUser({ name, email, password });
+        const user = await registerUser(data);
 
         return res.status(201).json(user);
     }
     catch (error) {
-        if (error instanceof Error) {
-            return res.status(409).json({ message: error.message });
-        };
+        return handleError(error, res);
     }
 }
 
 export async function login(req: Request, res: Response) {
     try {
-        const { email, password } = req.body;
-
-        const token = await loginUser({ email, password });
-        console.log(token);
+        const data = loginSchema.parse(req.body);
+        const token = await loginUser(data);
         return res.status(200).json({ token: token });
     } catch (error) {
-        console.log(error);
-        if (error instanceof Error) {
-            return res.status(401).json({ message: error.message });
-        }
+        return handleError(error, res);
     }
+
 }
+
+export async function meController(req: Request, res: Response) {
+    try {
+        const userId = req.userId;
+
+        const findUser = await getMe(userId!);
+
+        return res.status(200).json(findUser);
+    } catch (error) {
+        return handleError(error, res);
+    }
+}    

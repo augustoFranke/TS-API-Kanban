@@ -1,4 +1,4 @@
-import type { CreateUserInput } from "../../types.ts";
+import type { CreateUserInput, LoginUserInput } from "../../types.ts";
 import { prisma } from "../../index.ts";
 
 export async function findUserByEmail(email: string) {
@@ -11,4 +11,10 @@ export async function createUser(data: CreateUserInput) {
         email: data.email,
         passwordHash: data.hashedPassword
      }, select: {id: true, name: true, email: true, createdAt: true, updatedAt: true}});
+}
+
+export async function findUserById(id: string) {
+    return await prisma.user.findUnique({ where: { 
+        id
+    }, select: {id: true, name: true, email: true, createdAt: true}});
 }
