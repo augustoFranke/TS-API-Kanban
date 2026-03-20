@@ -14,3 +14,9 @@ export type LoginUserInput = {
     email: string;
     password: string    
 }
+
+export type CreateBoardInput = {
+    name: string;
+    description?: string;
+    userId: string;
+}
