@@ -30,9 +30,7 @@ export async function login(req: Request, res: Response) {
 export async function meController(req: Request, res: Response) {
     try {
         const userId = req.userId;
-
         const findUser = await getMe(userId!);
-
         return res.status(200).json(findUser);
     } catch (error) {
         return handleError(error, res);
