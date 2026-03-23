@@ -1,4 +1,4 @@
-import type { CreateUserInput, LoginUserInput } from "../../types.ts";
+import type { CreateUserInput } from "../../types.ts";
 import { prisma } from "../../index.ts";
 
 export async function findUserByEmail(email: string) {
