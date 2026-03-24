@@ -4,6 +4,6 @@ import { tokenVerification } from "../middleware/auth";
 
 const boardRouter = express.Router();
 
-boardRouter.post("/createBoard", tokenVerification, handleBoardCreation);
+boardRouter.post("/", tokenVerification, handleBoardCreation);
 
 export default boardRouter;
