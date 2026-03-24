@@ -6,5 +6,5 @@ export async function insertBoard(data: CreateBoardInput, userId: string) {
             name: data.name,
             description: data.description,
             ownerId: userId,
-            }, select: {name: true, description: true, ownerId: true}});
+            }, select: {name: true, description: true, ownerId: true, id: true, createdAt: true, updatedAt: true}});
 }
