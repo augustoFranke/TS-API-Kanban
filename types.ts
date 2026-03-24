@@ -1,3 +1,5 @@
+import type { Request } from "express";
+
 export type CreateUserInput = {
     name: string;
     email: string;
@@ -18,4 +20,8 @@ export type LoginUserInput = {
 export type CreateBoardInput = {
     name: string;
     description?: string;
+}
+
+export interface AuthenticatedReq extends Request {
+    userId: string;
 }
