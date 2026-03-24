@@ -27,7 +27,7 @@ async function start() {
 
     app.use("/auth", router);
 
-    app.use("/board", boardRouter);
+    app.use("/boards", boardRouter);
 
     app.listen(port, () => {
         console.log(`Successfully started express. Listening at port:${port}`);
