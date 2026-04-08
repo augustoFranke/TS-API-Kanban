@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 import type { AuthenticatedReq } from "../../types";
 import { boardSchema } from "../validators/boardSchemas";
 import { handleError } from "../errors/handleError";
-import { createBoard } from "../services/boardService"
+import { createBoard, listBoard } from "../services/boardService"
 
 export async function handleBoardCreation(req: Request, res: Response) {
     try {
@@ -13,6 +13,18 @@ export async function handleBoardCreation(req: Request, res: Response) {
 
         return res.status(201).json(board);
 
+    } catch (error) {
+        return handleError(error, res);
+    }
+}
+
+export async function handleBoardListing (req: Request, res: Response) {
+    try {
+        const authReq = req as AuthenticatedReq;
+        const userId = authReq.userId;
+        const boardList = await listBoard(userId) ;
+
+        return res.status(200).json(boardList);
     } catch (error) {
         return handleError(error, res);
     }
