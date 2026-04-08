@@ -1,6 +1,6 @@
 import type { CreateBoardInput } from "../../types";
 import { AppError } from "../errors/AppError";
-import { insertBoard } from "../repository/boardRepository";
+import { getUserBoards, insertBoard } from "../repository/boardRepository";
 import { findUserById } from "../repository/userRepository";
 
 export async function createBoard(data: CreateBoardInput, userId: string) {
@@ -10,4 +10,13 @@ export async function createBoard(data: CreateBoardInput, userId: string) {
     }
 
     return await insertBoard(data, userId);
+}
+
+export async function listBoard(userId: string) {
+    const existingId = await findUserById(userId);
+    if (existingId === null) {
+        throw new AppError("User not found", 404);
+    }
+
+    return await getUserBoards(userId);
 }
