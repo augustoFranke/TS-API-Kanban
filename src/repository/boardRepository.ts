@@ -8,3 +8,9 @@ export async function insertBoard(data: CreateBoardInput, userId: string) {
             ownerId: userId,
             }, select: {name: true, description: true, ownerId: true, id: true, createdAt: true, updatedAt: true}});
 }
+
+export async function getUserBoards(userId: string) {
+    return await prisma.board.findMany({ where: {
+        ownerId: userId
+    }, select: {name: true, description: true}})
+}
